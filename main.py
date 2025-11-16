@@ -6,15 +6,11 @@ import discord
 
 from discord import app_commands
 
-GUILD_ID = 1418496208543940659
-MY_GUILD = discord.Object(id=GUILD_ID)
-MY_GUILD = discord.Object(id=GUILD_ID)
-
 # Consolidated bot script
 # - single client (MyClient)
 # - message-based keyword replies (on_message)
 # - slash command `spam` with range-limited `count`
-# - a sample command `ping` that sends a button (command-based, not slash)
+# - works in any server (global sync)
 # - diagnostics for guild sync and fallback to global sync
 
 import discord
@@ -27,8 +23,9 @@ import os
 from keep_alive import keep_alive
 
 # --- Configuration ---
-GUILD_ID = 1418496208543940659  # replace with your target guild ID
-MY_GUILD = discord.Object(id=GUILD_ID)
+# Bot works globally in any server (no specific GUILD_ID needed)
+GUILD_ID = None  # None means global sync across all servers
+MY_GUILD = None  # None means use global scope
 TOKEN = os.getenv('DISCORD_TOKEN') or os.getenv('TOKEN')
 if not TOKEN:
     raise ValueError("Please set DISCORD_TOKEN or TOKEN environment variable")
@@ -40,39 +37,23 @@ class MyClient(discord.Client):
         self.tree = app_commands.CommandTree(self)
 
     async def setup_hook(self):
-        # Copy global commands to guild for faster testing, but fall back to global sync if not possible.
-        self.tree.copy_global_to(guild=MY_GUILD)
+        # Sync commands globally (not limited to a specific guild)
+        if MY_GUILD:
+            self.tree.copy_global_to(guild=MY_GUILD)
+        
         try:
-            print(f"Attempting to sync commands to guild {GUILD_ID} (application_id={getattr(self, 'application_id', None)})")
-
-            # Diagnostics: fetch guild from API
-            try:
-                guild = await self.fetch_guild(GUILD_ID)
-                print(f"fetch_guild succeeded: {guild.id} ({guild.name})")
-            except discord.errors.Forbidden:
-                print("fetch_guild: Forbidden (Missing Access)")
-            except discord.errors.NotFound:
-                print("fetch_guild: NotFound (Unknown Guild)")
-            except Exception as e:
-                print(f"fetch_guild error: {e}")
-
-            # Check cache
-            found = any(getattr(g, 'id', None) == GUILD_ID for g in self.guilds)
-            print(f"Guild present in client.guilds cache: {found}")
-
-            await self.tree.sync(guild=MY_GUILD)
-            print(f"Successfully synced commands to guild {GUILD_ID}")
-        except discord.errors.Forbidden:
-            print(f"Warning: Missing access when syncing commands to guild {GUILD_ID}. Ensure the bot is in the guild and has the applications.commands scope and required permissions.")
-            # fallback to global sync
-            try:
-                print("Falling back to global sync (may take up to an hour to propagate)")
+            if MY_GUILD:
+                print(f"Attempting to sync commands to guild {GUILD_ID} (application_id={getattr(self, 'application_id', None)})")
+                await self.tree.sync(guild=MY_GUILD)
+                print(f"Successfully synced commands to guild {GUILD_ID}")
+            else:
+                print(f"Syncing commands globally (application_id={getattr(self, 'application_id', None)})")
                 await self.tree.sync()
-                print("Global sync complete")
-            except Exception as e:
-                print(f"Global sync failed: {e}")
+                print("Successfully synced commands globally (may take up to an hour to propagate)")
+        except discord.errors.Forbidden:
+            print(f"Warning: Missing access when syncing commands. Ensure the bot has the applications.commands scope and required permissions.")
         except Exception as e:
-            print(f"Unexpected error while syncing commands: {e}")
+            print(f"Error while syncing commands: {e}")
 
     async def on_ready(self):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
