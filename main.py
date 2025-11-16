@@ -102,8 +102,8 @@ class MyClient(discord.Client):
                 await asyncio.sleep(5)
 
             await message.channel.send('請選擇一個按鈕：', view=view)
-        else:
-            await message.channel.send('idk wdym')
+        #else:
+            #await message.channel.send('idk wdym')
             return
 
 # --- Setup intents and client ---
@@ -115,9 +115,9 @@ client = MyClient(intents=intents)
 # as a keyword in on_message (see below).
 
 # --- Slash commands ---
-@client.tree.command(name='spam')
+@client.tree.command(name='meow')
 @app_commands.describe(count='重複次數 (1~20)')
-async def spam(interaction: discord.Interaction, count: app_commands.Range[int, 1, 20] = 10):
+async def meow(interaction: discord.Interaction, count: app_commands.Range[int, 1, 20] = 10):
     """Bababooey"""
     await interaction.response.send_message(f'\nBababooey<:wawa_cat:1421035275886530581>\nspawn by {interaction.user.mention}\n')
     for i in range(count-1):
