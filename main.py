@@ -119,8 +119,7 @@ client = MyClient(intents=intents)
 @app_commands.describe(count='重複次數 (1~20)')
 async def spam(interaction: discord.Interaction, count: app_commands.Range[int, 1, 20] = 10):
     """Bababooey"""
-    embed = discord.Embed(description=f'Bababooey<:wawa_cat:1421035275886530581>\nspawn by {interaction.user.mention}')
-    await interaction.response.send_message(embed=embed)
+    await interaction.response.send_message(f'```\nBababooey<:wawa_cat:1421035275886530581>\nspawn by {interaction.user.mention}\n```')
     for i in range(count-1):
         await interaction.followup.send('Bababooey<:wawa_cat:1421035275886530581>')
 
