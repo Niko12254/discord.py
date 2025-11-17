@@ -70,7 +70,7 @@ class MyClient(discord.Client):
         elif content.startswith('cat'):
             await message.channel.send('cheeseburger')
         elif content.startswith('<:wawa_cat:1421035275886530581>'):
-            await message.channel.send('<:wawa_cat:1421035275886530581>')
+            await message.channel.send('<:wawa_cat:1439801836067623053>')
         elif content.startswith('<@1418488299500339322>'):
             await message.channel.send('<@1287082676339216386>')
         elif content.startswith('Developer') or content.startswith('開發者'):
@@ -119,9 +119,9 @@ client = MyClient(intents=intents)
 @app_commands.describe(count='重複次數 (1~20)')
 async def meow(interaction: discord.Interaction, count: app_commands.Range[int, 1, 20] = 10):
     """Bababooey"""
-    await interaction.response.send_message(f'\nBababooey<:wawa_cat:1421035275886530581>\nspawn by {interaction.user.mention}\n')
+    await interaction.response.send_message(f'\nBababooey<:wawa_cat:1439801836067623053>\nspawn by {interaction.user.mention}\n')
     for i in range(count-1):
-        await interaction.followup.send('Bababooey<:wawa_cat:1421035275886530581>')
+        await interaction.followup.send('Bababooey<:wawa_cat:1439801836067623053>')
 
 # Optional: expose the ext bot's commands to the client loop
 # This makes the ext commands (like !ping) usable; depending on your use-case you may not need this
