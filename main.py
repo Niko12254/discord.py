@@ -134,7 +134,7 @@ async def meow(
 @app_commands.describe(user='你要 nerd 的人：')
 async def nerd(
     interaction: discord.Interaction,
-    user: Optional[discord.Member] = None
+    user: Optional[discord.User]
 ):
     """nerd someone"""
 
