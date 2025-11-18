@@ -116,13 +116,37 @@ client = MyClient(intents=intents)
 
 # --- Slash commands ---
 @client.tree.command(name='meow')
-@app_commands.describe(count='重複次數 (1~20)')
-async def meow(interaction: discord.Interaction, count: app_commands.Range[int, 1, 20] = 10):
+@app_commands.describe(count='重複次數（1-20）')
+async def meow(
+    interaction: discord.Interaction,
+    count: app_commands.Range[int, 1, 20] = 10
+):
     """Bababooey"""
-    await interaction.response.send_message(f'\nBababooey<:wawa_cat:1439807562852859904>\nspawn by {interaction.user.mention}\n')
-    for i in range(count-1):
+
+    await interaction.response.send_message(
+        f'\nBababooey<:wawa_cat:1439807562852859904>\nspawn by {interaction.user.mention}\n'
+    )
+
+    for i in range(count - 1):
         await interaction.followup.send('Bababooey<:wawa_cat:1439807562852859904>')
 
+@client.tree.command(name='nerd')
+@app_commands.describe(user='你要 nerd 的人：')
+async def nerd(
+    interaction: discord.Interaction,
+    user: Optional[discord.Member] = None
+):
+    """nerd someone"""
+
+    if interaction.user.id not in {1287082676339216386}:
+        return await interaction.response.send_message(
+            "Wawa Cat 不喜歡你的味道，所以決定拒絕你的要求。",
+            ephemeral=True
+        )
+
+    await interaction.response.defer(ephemeral=True)
+
+    await interaction.channel.send(f'\n{user.mention}\n☝️🤓\n')
 # Optional: expose the ext bot's commands to the client loop
 # This makes the ext commands (like !ping) usable; depending on your use-case you may not need this
 # note: no ext_bot bridge; message-based keyword handlers are used instead
