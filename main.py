@@ -145,8 +145,7 @@ async def nerd(
         )
 
     await interaction.response.defer("BaBaBooey.", ephemeral=True)
-
-    await interaction.followup.send(f'\n{user.mention}\n☝️🤓\n')
+        await interaction.followup.send(f'\n{user.mention}\n☝️🤓\n')
 # Optional: expose the ext bot's commands to the client loop
 # This makes the ext commands (like !ping) usable; depending on your use-case you may not need this
 # note: no ext_bot bridge; message-based keyword handlers are used instead
