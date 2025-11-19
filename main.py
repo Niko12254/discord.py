@@ -152,7 +152,7 @@ async def nerd(
 
     def make_callback(reply_text: str):
         async def callback(btn_inter: discord.Interaction):
-            await btn_inter.response.send_message(reply_text, ephemeral=True)
+            await btn_inter.response.send_message(reply_text, ephemeral=False)
         return callback 
 
     view = discord.ui.View()
@@ -160,7 +160,7 @@ async def nerd(
     btn1.callback = make_callback(f'\n{user.mention}\n☝️🤓\n')
     view.add_item(btn1)
 
-    await interaction.response.send_message("按下按鈕：", view=view)
+    await interaction.response.send_message("按下按鈕：", view=view, ephemeral=True)
 # Optional: expose the ext bot's commands to the client loop
 # This makes the ext commands (like !ping) usable; depending on your use-case you may not need this
 # note: no ext_bot bridge; message-based keyword handlers are used instead
