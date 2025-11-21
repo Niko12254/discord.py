@@ -6,13 +6,6 @@ import discord
 
 from discord import app_commands
 
-# Consolidated bot script
-# - single client (MyClient)
-# - message-based keyword replies (on_message)
-# - slash command `spam` with range-limited `count`
-# - works in any server (global sync)
-# - diagnostics for guild sync and fallback to global sync
-
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -21,6 +14,8 @@ import sys
 import asyncio
 import os
 from keep_alive import keep_alive
+
+
 
 # --- Configuration ---
 # Bot works globally in any server (no specific GUILD_ID needed)
@@ -72,7 +67,7 @@ class MyClient(discord.Client):
         elif content.startswith('<:wawa_cat:1421035275886530581>'):
             await message.channel.send('<:wawa_cat:1439807562852859904>')
         elif content.startswith('<@1418488299500339322>'):
-            await message.channel.send('<@1287082676339216386>')
+            await message.channel.send(f'{message.author.mention}')
         elif content.startswith('Developer') or content.startswith('開發者'):
             await message.channel.send('Developed by Niko(freeeeeeeeeman3)')
         elif content.startswith('mewing'):
