@@ -58,15 +58,16 @@ class MyClient(discord.Client):
         # keep classic message handlers working
         if message.author == self.user:
             return
-
+        
         content = message.content
+        msg = message.content.casefold()
         if content.startswith('meow'):
             await message.channel.send('BaBaBooey')
         elif content.startswith('cat'):
             await message.channel.send('cheeseburger')
-        elif content.startswith('<:wawa_cat:1421035275886530581>'):
+        elif 'wawa cat' in msg:
             await message.channel.send('<:wawa_cat:1439807562852859904>')
-        elif content.startswith('<@1418488299500339322>'):
+        elif '<@1418488299500339322>' in msg:
             await message.channel.send(f'{message.author.mention}')
         elif content.startswith('Developer') or content.startswith('開發者'):
             await message.channel.send('Developed by Niko(freeeeeeeeeman3)')
