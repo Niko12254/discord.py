@@ -135,10 +135,7 @@ async def nerd(
     """nerd someone"""
 
     #if interaction.user.id not in {1287082676339216386}:
-        #return await interaction.response.send_message(
-            #"Wawa Cat 不喜歡你的味道，所以決定拒絕你的要求。",
-            #ephemeral=True
-        )
+        #return await interaction.response.send_message("Wawa Cat 不喜歡你的味道，所以決定拒絕你的要求。", ephemeral=True)
 
     if user is None:
         return await interaction.response.send_message(
