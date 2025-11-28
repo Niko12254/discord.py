@@ -138,14 +138,11 @@ async def nerd(
         #return await interaction.response.send_message("Wawa Cat 不喜歡你的味道，所以決定拒絕你的要求。", ephemeral=True)
 
     if user is None:
-        return await interaction.response.send_message(
-            "你必須標記一位使用者！",
-            ephemeral=True
-        )
+        return await interaction.response.send_message("你必須標記一位使用者！",ephemeral=True)
 
     def make_callback(reply_text: str):
         async def callback(btn_inter: discord.Interaction):
-            await btn_inter.response.send_message(reply_text, ephemeral=False)
+            await btn_inter.channel.send(reply_text, ephemeral=False)
         return callback 
 
     view = discord.ui.View()
