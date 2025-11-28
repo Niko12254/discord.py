@@ -153,6 +153,25 @@ async def nerd(
     view.add_item(btn1)
 
     await interaction.response.send_message("按下按鈕：", view=view, ephemeral=True)
+
+@client.tree.command(name='say')
+@app_commands.describe(message='你要說的話')
+async def say(interaction: discord.Interaction,message: str):
+    """請輸入文本"""
+
+    def make_callback(reply_text: str):
+        async def callback(btn_inter: discord.Interaction):
+            await btn_inter.response.defer()
+            await btn_inter.channel.send(reply_text)
+
+        return callback
+
+    view = discord.ui.View()
+    btn1 = discord.ui.Button(label='say', style=discord.ButtonStyle.primary)
+    btn1.callback = make_callback(f'\n{message}\n')
+    view.add_item(btn1)
+
+    await interaction.response.send_message("按下按鈕：", view=view, ephemeral=True)
 # Optional: expose the ext bot's commands to the client loop
 # This makes the ext commands (like !ping) usable; depending on your use-case you may not need this
 # note: no ext_bot bridge; message-based keyword handlers are used instead
