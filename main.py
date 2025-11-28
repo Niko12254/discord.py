@@ -142,8 +142,10 @@ async def nerd(
 
     def make_callback(reply_text: str):
         async def callback(btn_inter: discord.Interaction):
-            await btn_inter.channel.send(reply_text, ephemeral=False)
-        return callback 
+            await btn_inter.response.defer()
+            await btn_inter.channel.send(reply_text)
+
+        return callback
 
     view = discord.ui.View()
     btn1 = discord.ui.Button(label='nerd', style=discord.ButtonStyle.primary)
